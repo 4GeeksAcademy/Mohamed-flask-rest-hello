@@ -25,7 +25,19 @@ class Like(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(db.Foreignkey('user.id'),nullable=False)
     post_id: Mapped[int] = mapped_column(db.Foreignkey('post_id'),nullable=False)
+
+class Comment(db.Model):
+    id: Mapped[int] = mapped_column(primary_key= True)
+    text: Mapped[str] = mapped_column(String(200), nullable=False)
+    user_id: Mapped[int] = mapped_column(db.Foreignkey('user.id'),nullable=False)
+    post_id: Mapped[int] = mapped_column(db.Foreignkey('post_id'),nullable=False)
+
+class Story(db.Model):
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(db.foreignkey('user_id',nullabld= False))
     
+
+
 
 
 
