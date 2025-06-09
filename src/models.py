@@ -4,12 +4,14 @@ from sqlalchemy.orm import Mapped, mapped_column
 
 db = SQLAlchemy()
 
+# ...existing code...
+
 class User(db.Model):
     __tablename__ = 'user'
     id: Mapped[int] = mapped_column(primary_key=True)
     user_name: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
     email: Mapped[str] = mapped_column(String(120), unique=True, nullable=False)
-    password: Mapped[str] = mapped_column(nullable=False)
+    password: Mapped[str] = mapped_column(String(128), nullable=False)  # Specify type
     is_active: Mapped[bool] = mapped_column(Boolean(), nullable=False)
 
     # One-to-many relationships
@@ -21,14 +23,16 @@ class User(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "user": self.user,
-            "post": self.post,
-            "comment": self.comment,
-            "like": self.like,
-            "story": self.stroty
-
-            # do not serialize the password, it's a security breach
+            "user_name": self.user_name,
+            "email": self.email,
+            # Optionally, you can serialize related objects if needed
+            # "posts": [post.id for post in self.posts],
+            # "comments": [comment.id for comment in self.comments],
+            # "likes": [like.id for like in self.likes],
+            # "stories": [story.id for story in self.stories]
+            # Do not serialize the password!
         }
+# ...existing code...
 
 class Post(db.Model):
     __tablename__ = 'post'
@@ -36,7 +40,7 @@ class Post(db.Model):
     content: Mapped[str] = mapped_column(String(200), nullable=False)
     image_url: Mapped[str] = mapped_column(String(200), nullable=False)
     user_id: Mapped[int] = mapped_column(db.ForeignKey('user.id'), nullable=False)
-    
+
 
 class Like(db.Model):
     __tablename__ = 'like'
