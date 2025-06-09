@@ -21,7 +21,12 @@ class User(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "email": self.email,
+            "user": self.user,
+            "post": self.post,
+            "comment": self.comment,
+            "like": self.like,
+            "story": self.stroty
+
             # do not serialize the password, it's a security breach
         }
 
@@ -31,6 +36,7 @@ class Post(db.Model):
     content: Mapped[str] = mapped_column(String(200), nullable=False)
     image_url: Mapped[str] = mapped_column(String(200), nullable=False)
     user_id: Mapped[int] = mapped_column(db.ForeignKey('user.id'), nullable=False)
+    
 
 class Like(db.Model):
     __tablename__ = 'like'
@@ -49,3 +55,4 @@ class Story(db.Model):
     __tablename__ = 'story'
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(db.ForeignKey('user.id'), nullable=False)
+
