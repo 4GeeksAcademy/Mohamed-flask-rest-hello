@@ -4,7 +4,7 @@ from sqlalchemy.orm import Mapped, mapped_column
 
 db = SQLAlchemy()
 
-# ...existing code...
+
 
 class User(db.Model):
     __tablename__ = 'user'
@@ -14,7 +14,7 @@ class User(db.Model):
     password: Mapped[str] = mapped_column(String(128), nullable=False)  # Specify type
     is_active: Mapped[bool] = mapped_column(Boolean(), nullable=False)
 
-    # One-to-many relationships
+    #relationships
     posts = db.relationship('Post', backref='user')
     likes = db.relationship('Like', backref='user')
     comments = db.relationship('Comment', backref='user')
@@ -25,15 +25,8 @@ class User(db.Model):
             "id": self.id,
             "user_name": self.user_name,
             "email": self.email,
-            # Optionally, you can serialize related objects if needed
-            # "posts": [post.id for post in self.posts],
-            # "comments": [comment.id for comment in self.comments],
-            # "likes": [like.id for like in self.likes],
-            # "stories": [story.id for story in self.stories]
-            # Do not serialize the password!
-        }
-# ...existing code...
 
+        }
 class Post(db.Model):
     __tablename__ = 'post'
     id: Mapped[int] = mapped_column(primary_key=True)
